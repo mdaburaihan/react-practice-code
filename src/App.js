@@ -18,6 +18,8 @@ import ReducerTest from './components/reducer'
 import ReducerTest1 from './components/reducer2'
 import Callbacktest from './components/Callback1'
 import Memotest from './components/Memo1'
+import ClassTimer from './components/UserRefTest'
+import HookTimer from './components/UserRefTest2'
 
 function App() {
 
@@ -54,7 +56,8 @@ function App() {
       {/* <Routing/> */}
       {/* <ReducerTest/> */}
       {/* <Callbacktest/> */}
-      <Memotest/>
+      {/* <Memotest/> */}
+      <HookTimer/>
     </div>
   );
 }
