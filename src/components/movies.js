@@ -38,6 +38,7 @@ class Movies extends Component {
     handleSort = (sortColumn) => {
         this.setState({sortColumn})
     }
+    
     render() {
         if (this.state.movies.length === 0)
             return <p>No Movies Found</p>

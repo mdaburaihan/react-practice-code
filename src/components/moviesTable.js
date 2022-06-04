@@ -1,25 +1,22 @@
 import React, { Component } from 'react';
-import TableHeader from './tableHeader'
-import TableBody from './tableBody'
+import { Link } from 'react-router-dom'
+import Table from './table'
 
 class MoviesTable extends Component {
 
     columns = [
-        { path: "title", lable: "Title" },
+        { path: "title", lable: "Title", content: movie => <Link to={`/movies/${movie._id}`}>{movie.title}</Link> },
         { path: "genre.name", lable: "Genre" },
         { path: "numberInStock", lable: "Stock" },
         { path: "dailyRentalRate", lable: "Rate" },
-        { key: "delete" },
+        { key: "delete", content: movie => (<button className="btn btn-danger btn-sm" onClick={() => this.onDelete(movie)}>Delete</button>) },
     ]
     render() {
         const {movies, onDelete, sortColumn, onSort} = this.props;
         return (
             <React.Fragment>
                 <p>Showing {movies.length} movies</p>
-                <table className="table">
-                    <TableHeader columns={this.columns} sortColumn={sortColumn} onSort={onSort}/>
-                    <TableBody movies={movies} onDelete={onDelete}/>
-                </table>
+                <Table columns={this.columns} movies={movies} onDelete={onDelete} sortColumn={sortColumn} onSort={onSort}/>
             </React.Fragment>
         )
     }

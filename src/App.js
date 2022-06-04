@@ -1,5 +1,5 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import {Route, Redirect, Switch} from 'react-router-dom'
 import './App.css';
 // import Header from './components/Header'
 // import CHeader from './components/CHeader'
@@ -22,18 +22,33 @@ import './App.css';
 // import HookTimer from './components/UserRefTest2'
 // import Counters from './components/Counters'
 import Movies from './components/movies'
+import Customers from './components/customers'
+import Rental from './components/rental'
+import NotFound from './components/notFound'
+import NavBar from './components/navbar'
+import MovieForm from './components/movieForm'
 
-function App() {
+class App extends Component {
 
-  // const handleClick = () => {
-  //   console.log("handle click function")
-  // }
-  return (
-    <div className="container">
-     
-      <Movies/>
-    </div>
-  );
+  render () {
+    return (
+      <React.Fragment>
+        <NavBar/>
+          <div className="container">
+            <Switch>
+              <Route path="/movies/:id" component={MovieForm}></Route>
+              <Route path="/movies" component={Movies}></Route>
+              <Route path="/customers" component={Customers}></Route>
+              <Route path="/rental" component={Rental}></Route>
+              <Route path="/not-found" component={NotFound}></Route>
+              <Redirect from="/" exact to="/movies" />
+              <Redirect to="/not-found" />
+            </Switch>
+          </div>
+      </React.Fragment>
+    );
+  }
+ 
 }
 
 export default App;
