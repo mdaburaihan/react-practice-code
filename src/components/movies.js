@@ -5,6 +5,7 @@ import Pagination from './pagination'
 import { paginate } from '../utils/paginate'
 import ListGroup from './listgroup'
 import MoviesTable from './moviesTable'
+import SearchBox from './searchBox'
 import _ from 'lodash'
 
 class Movies extends Component {
@@ -14,7 +15,8 @@ class Movies extends Component {
         pageSize: 4,
         genres: [],
         selectedGenre: {},
-        sortColumn: { path: "title", sort: "asc" }
+        sortColumn: { path: "title", sort: "asc" },
+        searchQuery: ""
     }
 
     componentDidMount(){
@@ -33,7 +35,11 @@ class Movies extends Component {
         this.setState({ currentPage: page })
     }
     handleGenreSelect = (genre) => {
-        this.setState({ selectedGenre: genre, currentPage: 1 })
+        this.setState({ selectedGenre: genre, searchQuery: "", currentPage: 1 })
+    }
+    handleSearch = (query) => {
+        console.log(query)
+        this.setState({ searchQuery: query, selectedGenre: "", currentPage: 1 })
     }
     handleSort = (sortColumn) => {
         this.setState({sortColumn})
@@ -44,12 +50,17 @@ class Movies extends Component {
             return <p>No Movies Found</p>
         const { pageSize, currentPage, movies: allMovies, selectedGenre } = this.state;
 
-        const filteredMovies = selectedGenre && Object.keys(selectedGenre).length && selectedGenre._id ? allMovies.filter(obj => obj.genre._id === selectedGenre._id) : allMovies
+        let filteredMovies = selectedGenre && Object.keys(selectedGenre).length && selectedGenre._id ? allMovies.filter(obj => obj.genre._id === selectedGenre._id) : allMovies
         
+        if(this.state.searchQuery){
+            filteredMovies = allMovies.filter(m => m.title.toLowerCase().startsWith(this.state.searchQuery))
+        }
+
         const sortedMovies = _.orderBy(filteredMovies, [this.state.sortColumn.path], [this.state.sortColumn.sort])
         const movies = paginate(sortedMovies, currentPage, pageSize)
         return (
             <React.Fragment>
+                 <button className="btn btn-primary">Add Movie</button>
                 <div className="row">
                     <div className="col-3">
                         <ListGroup 
@@ -59,6 +70,7 @@ class Movies extends Component {
                         />
                     </div>
                     <div className="col">
+                        <SearchBox value={this.state.searchQuery} onChange={this.handleSearch}/>
                         <MoviesTable 
                             movies={movies} 
                             onDelete={this.handleDelete} 

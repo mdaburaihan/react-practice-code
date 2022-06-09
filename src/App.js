@@ -27,6 +27,8 @@ import Rental from './components/rental'
 import NotFound from './components/notFound'
 import NavBar from './components/navbar'
 import MovieForm from './components/movieForm'
+import LoginForm from './components/LoginForm'
+import RegisterForm from './components/registerForm'
 
 class App extends Component {
 
@@ -41,6 +43,8 @@ class App extends Component {
               <Route path="/customers" component={Customers}></Route>
               <Route path="/rental" component={Rental}></Route>
               <Route path="/not-found" component={NotFound}></Route>
+              <Route path="/login" component={LoginForm}></Route>
+              <Route path="/register" component={RegisterForm}></Route>
               <Redirect from="/" exact to="/movies" />
               <Redirect to="/not-found" />
             </Switch>
